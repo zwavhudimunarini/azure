@@ -6,6 +6,7 @@ const app = express();
 const port = 3001; 
 
 
+
 //const staticPath=path.join(__dirname,'C:\Users\Khodani\Downloads\azure');
 app.use(express.static(__dirname))
 
@@ -50,12 +51,9 @@ app.post('/cars', (req, res) => {
     res.json(newCar);
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname,'index.html'));
-    //res.send('Welcome to zwavhudi Cars website!');
-});
+
 
 //start app at localhost:3001
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log('Server started at http://localhost:3001');
 });
