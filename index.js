@@ -6,9 +6,14 @@ const app = express();
 const port = 3001; 
 
 
+const cors = require("cors");
+
+
+
 
 //const staticPath=path.join(__dirname,'C:\Users\Khodani\Downloads\azure');
 app.use(express.static(__dirname))
+app.use(cors())
 
 const cars = require('./cars.json');
 
