@@ -27,39 +27,53 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
-function addCar(newCar) {
+
+
+//Get the form element
+var carForm = document.getElementById('carForm');
+
+// Add an event listener for the form submission
+carForm.addEventListener('submit', function(event) {
+    // Prevent the form from being submitted normally
+    event.preventDefault();
+
+    // Create a new car object from the form data
+    var newCar = {
+        make: document.getElementById('make').value,
+        model: document.getElementById('model').value,
+        year: document.getElementById('year').value,
+        price: document.getElementById('price').value
+    };
+
+    // Send the new car data to the server
     fetch('/cars', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newCar)
+        body: JSON.stringify(newCar),
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            //reload cars
-            // const loadCarsBtn = document.getElementById('loadCarsBtn');
-            loadCarsBtn.click();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
-carForm.addEventListener('submit', event => {
-    event.preventDefault();
-    const make = document.getElementById('make').value;
-    const model = document.getElementById('model').value;
-    const year = document.getElementById('year').value;
-    const price = document.getElementById('price').value;
-    addCar({ make, model, year, price });
-    carForm.reset();
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        //clear form fields
+        document.getElementById('make').value = '';
+        document.getElementById('model').value = '';
+        document.getElementById('year').value = '';
+        document.getElementById('price').value = '';
+        
+    })
+    .catch((error) => {         
+        console.error('Error:', error);
+    });
 });
+
+
+
 
 // Function to remove a car
 function removeCar(index) {
-    const carId = cars[index].id;
+    const carId = index;
     fetch(`/cars/${carId}`, {
         method: 'DELETE'
     })

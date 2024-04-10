@@ -14,6 +14,7 @@ const cors = require("cors");
 //const staticPath=path.join(__dirname,'C:\Users\Khodani\Downloads\azure');
 app.use(express.static(__dirname))
 app.use(cors())
+app.use(express.json())
 
 const cars = require('./cars.json');
 
@@ -41,10 +42,10 @@ app.put('/cars/:id', (req, res) => {
 
 //delete car
 app.delete('/cars/:id', (req, res) => {
-    const id = req.params.id;
-    const index = cars.findIndex(car => car.id === id);
+
+    const index = req.params.id;
     cars.splice(index, 1);
-    res.json({ message: `Car with id ${id} deleted` });
+    res.json({ message: `Car with id ${index} deleted` });
 });
 
 //add car
